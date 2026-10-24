@@ -1,5 +1,67 @@
 import 'package:flutter/material.dart';
+
 void main()=>runApp(const SmartHomeApp());
-class SmartHomeApp extends StatelessWidget { const SmartHomeApp({super.key}); @override Widget build(BuildContext context)=>const MaterialApp(debugShowCheckedModeBanner:false,home:SmartHomeShell()); }
-class SmartHomeShell extends StatefulWidget { const SmartHomeShell({super.key}); @override State<SmartHomeShell> createState()=>_SmartHomeShellState(); }
-class _SmartHomeShellState extends State<SmartHomeShell> { int bottomIndex=0; String panelTitle='Lighting Control'; final bottomTitles=['Dashboard','Rooms','Settings']; final panels={'Lighting':'Lighting Control','Temperature':'Temperature Control','Security':'Security Control','Appliances':'Appliances Control'}; final panelIcons={'Lighting':Icons.lightbulb,'Temperature':Icons.thermostat,'Security':Icons.security,'Appliances':Icons.kitchen}; void selectPanel(String key){setState(()=>panelTitle=panels[key]!);Navigator.pop(context);} void selectBottom(int index){setState((){bottomIndex=index;panelTitle=bottomTitles[index];});} @override Widget build(BuildContext context)=>Scaffold(appBar:AppBar(title:Text(panelTitle),actions:[IconButton(icon:const Icon(Icons.notifications),onPressed:(){}),IconButton(icon:const Icon(Icons.tune),onPressed:(){})]),drawer:Drawer(child:ListView(padding:EdgeInsets.zero,children:[const DrawerHeader(decoration:BoxDecoration(color:Colors.deepPurple),child:Text('Smart Home',style:TextStyle(color:Colors.white,fontSize:22))),for(final key in panels.keys)ListTile(leading:Icon(panelIcons[key]),title:Text(key),onTap:()=>selectPanel(key))])),body:Center(child:Text(panelTitle,style:const TextStyle(fontSize:24))),bottomNavigationBar:BottomNavigationBar(currentIndex:bottomIndex,onTap:selectBottom,items:const [BottomNavigationBarItem(icon:Icon(Icons.dashboard),label:'Dashboard'),BottomNavigationBarItem(icon:Icon(Icons.meeting_room),label:'Rooms'),BottomNavigationBarItem(icon:Icon(Icons.settings),label:'Settings')])); }
+
+class SmartHomeApp extends StatelessWidget {
+  const SmartHomeApp({super.key});
+
+  @override
+  Widget build(BuildContext context)=>const MaterialApp(debugShowCheckedModeBanner:false,
+    home:SmartHomeShell());
+}
+
+class SmartHomeShell extends StatefulWidget {
+  const SmartHomeShell({super.key});
+
+  @override
+  State<SmartHomeShell> createState()=>_SmartHomeShellState();
+}
+
+class _SmartHomeShellState extends State<SmartHomeShell> {
+  int bottomIndex=0;
+  String panelTitle='Lighting Control';
+  final bottomTitles=['Dashboard',
+    'Rooms',
+    'Settings'];
+  final panels={'Lighting':'Lighting Control','Temperature':'Temperature Control','Security':'Security Control','Appliances':'Appliances Control'};
+  final panelIcons={'Lighting':Icons.lightbulb,'Temperature':Icons.thermostat,'Security':Icons.security,'Appliances':Icons.kitchen};
+  void selectPanel(String key) {
+    setState(()=>panelTitle=panels[key]!);
+    Navigator.pop(context);
+  }
+  void selectBottom(int index) {
+    setState(() {
+        bottomIndex=index;
+        panelTitle=bottomTitles[index];
+      }
+      );
+  }
+  @override
+  Widget build(BuildContext context)=>Scaffold(appBar:AppBar(title:Text(panelTitle),
+      actions:[IconButton(icon:const Icon(Icons.notifications),
+          onPressed:() {
+          }
+          ),
+        IconButton(icon:const Icon(Icons.tune),
+          onPressed:() {
+          }
+          )]),
+    drawer:Drawer(child:ListView(padding:EdgeInsets.zero,
+        children:[const DrawerHeader(decoration:BoxDecoration(color:Colors.deepPurple),
+            child:Text('Smart Home',
+              style:TextStyle(color:Colors.white,
+                fontSize:22))),
+          for(final key in panels.keys)ListTile(leading:Icon(panelIcons[key]),
+            title:Text(key),
+            onTap:()=>selectPanel(key))])),
+    body:Center(child:Text(panelTitle,
+        style:const TextStyle(fontSize:24))),
+    bottomNavigationBar:BottomNavigationBar(currentIndex:bottomIndex,
+      onTap:selectBottom,
+      items:const [BottomNavigationBarItem(icon:Icon(Icons.dashboard),
+          label:'Dashboard'),
+        BottomNavigationBarItem(icon:Icon(Icons.meeting_room),
+          label:'Rooms'),
+        BottomNavigationBarItem(icon:Icon(Icons.settings),
+          label:'Settings')]));
+}

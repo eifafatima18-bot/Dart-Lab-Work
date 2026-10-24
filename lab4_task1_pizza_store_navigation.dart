@@ -1,8 +1,98 @@
 import 'package:flutter/material.dart';
+
 void main()=>runApp(const MyApp());
-class MyApp extends StatelessWidget { const MyApp({super.key}); @override Widget build(BuildContext context)=>MaterialApp(debugShowCheckedModeBanner:false,home:const HomePage(),routes:{'/cart':(context)=>const CartPage()}); }
-class Pizza { final String name; final double price; final String image; final double rating; const Pizza(this.name,this.price,this.image,this.rating); }
-const pizzas=[Pizza('Margherita',8.99,'https://images.unsplash.com/photo-157 pizza',4.5),Pizza('Pepperoni',10.99,'https://images.unsplash.com/photo-1628840042765-356cda07504e',4.8),Pizza('Veggie Supreme',9.99,'https://images.unsplash.com/photo-1513104890138-7c749659a591',4.3),Pizza('Four Cheese',11.49,'https://images.unsplash.com/photo-1571407970349-bc81e7e96d47',4.7)];
-class HomePage extends StatelessWidget { const HomePage({super.key}); @override Widget build(BuildContext context)=>Scaffold(appBar:AppBar(title:const Text('Pizza Store')),floatingActionButton:FloatingActionButton(onPressed:()=>Navigator.pushNamed(context,'/cart'),child:const Icon(Icons.shopping_cart)),body:ListView(children:[for(final pizza in pizzas)Card(child:ListTile(leading:Hero(tag:pizza.name,child:Image.network(pizza.image,width:70,height:70,fit:BoxFit.cover,errorBuilder:(_,__,___)=>const Icon(Icons.local_pizza,size:48))),title:Text(pizza.name),subtitle:Text('\$${pizza.price.toStringAsFixed(2)}  •  ⭐ ${pizza.rating}'),onTap:()async{final added=await Navigator.push(context,MaterialPageRoute(builder:(_)=>DetailsPage(pizza:pizza)));if(context.mounted&&added!=null)ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text('Added $added to cart')));} ))])); }
-class DetailsPage extends StatelessWidget { final Pizza pizza; const DetailsPage({super.key,required this.pizza}); @override Widget build(BuildContext context)=>Scaffold(appBar:AppBar(title:Text(pizza.name)),body:Padding(padding:const EdgeInsets.all(20),child:Column(crossAxisAlignment:CrossAxisAlignment.stretch,children:[Expanded(child:Hero(tag:pizza.name,child:Image.network(pizza.image,fit:BoxFit.contain,errorBuilder:(_,__,___)=>const Icon(Icons.local_pizza,size:120)))),Text(pizza.name,style:Theme.of(context).textTheme.headlineMedium),Text('\$${pizza.price.toStringAsFixed(2)}  •  ⭐ ${pizza.rating}'),const SizedBox(height:20),ElevatedButton(onPressed:()=>Navigator.pop(context,pizza.name),child:const Text('Add to Cart'))]))); }
-class CartPage extends StatelessWidget { const CartPage({super.key}); @override Widget build(BuildContext context)=>Scaffold(appBar:AppBar(title:const Text('Cart')),body:const Center(child:Text('Your cart is ready for items.'))); }
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context)=>MaterialApp(debugShowCheckedModeBanner:false,
+    home:const HomePage(),
+    routes:{'/cart':(context)=>const CartPage()});
+}
+
+class Pizza {
+  final String name;
+  final double price;
+  final String image;
+  final double rating;
+  const Pizza(this.name,
+    this.price,
+    this.image,
+    this.rating);
+}
+
+const pizzas=[Pizza('Margherita',
+    8.99,
+    'https://images.unsplash.com/photo-157 pizza',
+    4.5),
+  Pizza('Pepperoni',
+    10.99,
+    'https://images.unsplash.com/photo-1628840042765-356cda07504e',
+    4.8),
+  Pizza('Veggie Supreme',
+    9.99,
+    'https://images.unsplash.com/photo-1513104890138-7c749659a591',
+    4.3),
+  Pizza('Four Cheese',
+    11.49,
+    'https://images.unsplash.com/photo-1571407970349-bc81e7e96d47',
+    4.7)];
+
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
+  @override
+  Widget build(BuildContext context)=>Scaffold(appBar:AppBar(title:const Text('Pizza Store')),
+    floatingActionButton:FloatingActionButton(onPressed:()=>Navigator.pushNamed(context,
+        '/cart'),
+      child:const Icon(Icons.shopping_cart)),
+    body:ListView(children:[for(final pizza in pizzas)Card(child:ListTile(leading:Hero(tag:pizza.name,
+              child:Image.network(pizza.image,
+                width:70,
+                height:70,
+                fit:BoxFit.cover,
+                errorBuilder:(_,
+                  __,
+                  ___)=>const Icon(Icons.local_pizza,
+                  size:48))),
+            title:Text(pizza.name),
+            subtitle:Text('\$${pizza.price.toStringAsFixed(2)}  •  ⭐ ${pizza.rating}'),
+            onTap:()async{final added=await Navigator.push(context,
+              MaterialPageRoute(builder:(_)=>DetailsPage(pizza:pizza)));
+            if(context.mounted&&added!=null)ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text('Added $added to cart')));
+            } ))]));
+}
+
+class DetailsPage extends StatelessWidget {
+  final Pizza pizza;
+  const DetailsPage({super.key,
+    required this.pizza});
+
+  @override
+  Widget build(BuildContext context)=>Scaffold(appBar:AppBar(title:Text(pizza.name)),
+    body:Padding(padding:const EdgeInsets.all(20),
+      child:Column(crossAxisAlignment:CrossAxisAlignment.stretch,
+        children:[Expanded(child:Hero(tag:pizza.name,
+              child:Image.network(pizza.image,
+                fit:BoxFit.contain,
+                errorBuilder:(_,
+                  __,
+                  ___)=>const Icon(Icons.local_pizza,
+                  size:120)))),
+          Text(pizza.name,
+            style:Theme.of(context).textTheme.headlineMedium),
+          Text('\$${pizza.price.toStringAsFixed(2)}  •  ⭐ ${pizza.rating}'),
+          const SizedBox(height:20),
+          ElevatedButton(onPressed:()=>Navigator.pop(context,
+              pizza.name),
+            child:const Text('Add to Cart'))])));
+}
+
+class CartPage extends StatelessWidget {
+  const CartPage({super.key});
+
+  @override
+  Widget build(BuildContext context)=>Scaffold(appBar:AppBar(title:const Text('Cart')),
+    body:const Center(child:Text('Your cart is ready for items.')));
+}

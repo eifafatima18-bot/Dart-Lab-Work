@@ -1,6 +1,52 @@
 import 'package:flutter/material.dart';
+
 void main()=>runApp(const RecipeApp());
-class RecipeApp extends StatelessWidget { const RecipeApp({super.key}); @override Widget build(BuildContext context)=>MaterialApp(debugShowCheckedModeBanner:false,initialRoute:'/',routes:{'/':(_)=>const RecipeListScreen(),'/details':(_)=>const RecipeDetailsScreen(),'/about':(_)=>const AboutScreen()}); }
-class RecipeListScreen extends StatelessWidget { const RecipeListScreen({super.key}); final recipes=const ['Pasta','Pancakes','Vegetable Soup']; @override Widget build(BuildContext context)=>Scaffold(appBar:AppBar(title:const Text('My Recipe Book'),actions:[IconButton(onPressed:()=>Navigator.pushNamed(context,'/about'),icon:const Icon(Icons.info))]),body:ListView(children:[for(final recipe in recipes)ListTile(title:Text(recipe),trailing:const Icon(Icons.chevron_right),onTap:()=>Navigator.pushNamed(context,'/details',arguments:recipe))])); }
-class RecipeDetailsScreen extends StatelessWidget { const RecipeDetailsScreen({super.key}); @override Widget build(BuildContext context){final recipe=ModalRoute.of(context)!.settings.arguments as String? ?? 'Recipe';return Scaffold(appBar:AppBar(title:const Text('Recipe Details')),body:Center(child:Text(recipe,style:Theme.of(context).textTheme.headlineMedium)));} }
-class AboutScreen extends StatelessWidget { const AboutScreen({super.key}); @override Widget build(BuildContext context)=>Scaffold(appBar:AppBar(title:const Text('About')),body:const Center(child:Text('My Recipe Book'))); }
+
+class RecipeApp extends StatelessWidget {
+  const RecipeApp({super.key});
+
+  @override
+  Widget build(BuildContext context)=>MaterialApp(debugShowCheckedModeBanner:false,
+    initialRoute:'/',
+    routes:{'/':(_)=>const RecipeListScreen(),
+    '/details':(_)=>const RecipeDetailsScreen(),
+    '/about':(_)=>const AboutScreen()});
+}
+
+class RecipeListScreen extends StatelessWidget {
+  const RecipeListScreen({super.key});
+  final recipes=const ['Pasta',
+    'Pancakes',
+    'Vegetable Soup'];
+
+  @override
+  Widget build(BuildContext context)=>Scaffold(appBar:AppBar(title:const Text('My Recipe Book'),
+      actions:[IconButton(onPressed:()=>Navigator.pushNamed(context,
+            '/about'),
+          icon:const Icon(Icons.info))]),
+    body:ListView(children:[for(final recipe in recipes)ListTile(title:Text(recipe),
+          trailing:const Icon(Icons.chevron_right),
+          onTap:()=>Navigator.pushNamed(context,
+            '/details',
+            arguments:recipe))]));
+}
+
+class RecipeDetailsScreen extends StatelessWidget {
+  const RecipeDetailsScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final recipe=ModalRoute.of(context)!.settings.arguments as String? ?? 'Recipe';
+    return Scaffold(appBar:AppBar(title:const Text('Recipe Details')),
+      body:Center(child:Text(recipe,
+          style:Theme.of(context).textTheme.headlineMedium)));
+  }
+}
+
+class AboutScreen extends StatelessWidget {
+  const AboutScreen({super.key});
+
+  @override
+  Widget build(BuildContext context)=>Scaffold(appBar:AppBar(title:const Text('About')),
+    body:const Center(child:Text('My Recipe Book')));
+}
